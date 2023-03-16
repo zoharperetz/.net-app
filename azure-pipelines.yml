@@ -24,20 +24,24 @@ steps:
       sudo apt-get update
       sudo apt-get install -y dotnet-sdk-7.0
       dotnet --version
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '7.0.x'
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
     feedsToUse: 'select'
-    vstsFeed: '<your-artifacts-feed-name>'
+    vstsFeed: 'myfeed'
     includeNuGetOrg: true
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
     projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-
+    arguments: '--configuration Release'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
